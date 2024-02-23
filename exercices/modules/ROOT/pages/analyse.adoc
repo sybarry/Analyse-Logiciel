@@ -1,0 +1,69 @@
+== Commençons par définir les attributs d'un livre et les concepts qui y sont associés.
+
+=== Concept de "Livre" :
+** Titre
+** Auteur(s)
+** ISBN
+** Éditeur(s)
+** Date de publication
+** Genre(s)
+** Mots-clés
+** État (commandé, disponible, emprunté, réservé)
+** Section (adulte, adolescent, enfant)
+
+
+Chaque mention de "livre" dans l'énoncé correspond au même concept, bien que certaines mentions spécifient des états ou des actions particulières liées à ce concept.
+
+
+==  Diagramme de classes :
+
+Le diagramme de classes permet de connaître :
+
+** Tous les livres empruntés par un abonné.
+** Tous les abonnés qui ont emprunté un livre.
+** Toutes les adresses d'un abonné.
+
+
+== Machine d'états pour la classe "Livre" :
+*** États possibles :
+** Commandé
+** Disponible
+** Emprunté
+** Réservé
+
+== Invariants du diagramme :
+** Invariant 1: Un livre ne peut pas être à la fois emprunté et disponible.
+** Invariant 2: Un livre ne peut pas être réservé s'il est disponible.
+** Invariant 3: Un abonné ne peut pas emprunter plus de deux livres (sauf pour les membres du comité de lecture).
+** Invariant 4: Les membres du comité de lecture ne peuvent pas emprunter plus de quatre livres.
+
+== Cas d'utilisation de la bibliothèque :
+** Emprunter un livre
+** Rendre un livre
+** Changer de section un livre
+** Gérer les emprunts (pour le bibliothécaire)
+
+== Acteurs :
+** Abonné
+** Bibliothécaire
+** Membre du comité de lecture
+
+== Pré- et post-conditions pour "Emprunter" un livre :
+=== Pré-conditions :
+** Le livre doit être disponible.
+** L'abonné ne doit pas avoir atteint son quota d'emprunts.
+
+===   Post-conditions :
+** Le livre est maintenant marqué comme "emprunté".
+** Les informations d'emprunt (abonné, date d'emprunt, date de retour prévue) sont enregistrées.
+** Instantanés (avant et après) pour "Emprunter" un livre :
+
+== Pré- et post-conditions pour "Rendre" un livre :
+=== Pré-conditions :
+** Le livre doit être emprunté par l'abonné.
+
+=== Post-conditions :
+** Le livre est maintenant marqué comme "disponible".
+** Les informations d'emprunt sont mises à jour pour indiquer que le livre a été rendu.
+** Instantanés (avant et après) pour "Rendre" un livre :
+

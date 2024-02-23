@@ -1,0 +1,1 @@
+.doc .listingblock pre:not(.highlight),.doc .literalblock pre,.doc pre.highlight>code{-webkit-box-shadow:inset 0 0 1.75px var(--pre-border-color);box-shadow:inset 0 0 1.75px var(--pre-border-color);display:block;background:var(--pre-background);overflow-x:auto;padding:.875em}

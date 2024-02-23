@@ -1,0 +1,12 @@
+name: labs
+version: 2023
+prerelease: '.0.1'
+title: Domain Analysis Labs
+asciidoc:
+  attributes:
+    source-language: asciidoc@
+    xrefstyle: short@
+    listing-caption: Listing@
+    example-caption: true
+nav:
+  - modules/ROOT/nav.adoc

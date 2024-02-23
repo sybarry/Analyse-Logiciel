@@ -1,0 +1,11 @@
+{
+  "private": true,
+  "dependencies": {
+    "@antora/cli": "3.1",
+    "@antora/lunr-extension": "",
+    "@antora/pdf-extension": "",
+    "@antora/site-generator": "3.1",
+    "@djencks/asciidoctor-mathjax": "",
+    "asciidoctor-kroki": "^0.18.1"
+  }
+}
