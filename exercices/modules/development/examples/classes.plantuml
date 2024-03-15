@@ -1,13 +1,75 @@
 @startuml
-class Partie {
-    nom : String
+class Livre {
+      - titre: String
+      - auteurs: String[1...n]
+      - isbn: String
+      - editeurs: List<String>
+      - datePublication: Date
+      - genres: List<String>
+      - motsCles: List<String>
+      - etat: List<String>
+      - section: List<String>
+
+      + emprunts(): List<Emprunt>
+
 }
 
-class Joueur {
-    identifiant : String
+class Abonne {
+   - nom : String
+   - prenom : String
+   - adresse : String
+   - numeroCarte : String
+
+   + emprunts(): List<Emprunt>
 }
 
-Partie *-> "joueurs\n[2..6]" Joueur : \t\t
-Partie -> "actif [1]" Joueur : \t\t
-Partie --> "[1]" Plateau
+
+class Emprunt {
+   - dateDebut : Date
+   - dateFin : Date
+   - livreEmpurnte : Livre
+   - abonneEmprunte : Abonne
+}
+
+class Bibliotheque {
+    -livres: List<Livre>
+    -abonnes: List<Abonne>
+    -emprunts: List<Emprunt>
+}
+
+
+entity Commande {
+    - Livre commandé, non disponible
+}
+
+entity Disponible {
+    - Livre disponible pour emprunt
+}
+
+entity Emprunté {
+    - Livre actuellement emprunté
+}
+
+entity Réservé {
+    - Livre réservé, non disponible
+}
+
+
+Commande -->  Disponible
+Commande <--  Disponible
+
+Disponible -->  Emprunté
+Disponible <--  Emprunté
+
+Emprunté -->  Réservé
+Emprunté <--  Réservé
+
+Bibliotheque -- Livre
+Bibliotheque -- Abonne
+Bibliotheque -- Emprunt
+Abonne -- Emprunt
+Livre "1" -- "0..*" Emprunt
+
+
 @enduml
+
