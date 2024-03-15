@@ -1,0 +1,13 @@
+@startuml
+class Partie {
+    nom : String
+}
+
+class Joueur {
+    identifiant : String
+}
+
+Partie *-> "joueurs\n[2..6]" Joueur : \t\t
+Partie -> "actif [1]" Joueur : \t\t
+Partie --> "[1]" Plateau
+@enduml
