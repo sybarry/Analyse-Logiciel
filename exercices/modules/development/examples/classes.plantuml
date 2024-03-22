@@ -3,73 +3,61 @@ class Livre {
       - titre: String
       - auteurs: String[1...n]
       - isbn: String
-      - editeurs: List<String>
+      - editeurs: String[1...n]
       - datePublication: Date
-      - genres: List<String>
-      - motsCles: List<String>
-      - etat: List<String>
-      - section: List<String>
-
-      + emprunts(): List<Emprunt>
-
+      - genres: String[1...n]
+      - motsCles: String[1...n]
+      - etat: EtatLivre
 }
 
-class Abonne {
+enum EtatLivre {
+      commande
+      disponible
+      emprunte
+      reserve
+}
+
+enum Section {
+      adulte
+      adolescent
+      enfant
+}
+
+enum Emprunt {
+      actif
+      passe
+}
+
+class CarteMembre {
    - nom : String
    - prenom : String
    - adresse : String
-   - numeroCarte : String
-
-   + emprunts(): List<Emprunt>
+   - identifiant : int[1...10]
 }
 
-
-class Emprunt {
-   - dateDebut : Date
-   - dateFin : Date
-   - livreEmpurnte : Livre
-   - abonneEmprunte : Abonne
+class Abonne {
+    - carte : CarteMembre
 }
+
 
 class Bibliotheque {
-    -livres: List<Livre>
-    -abonnes: List<Abonne>
-    -emprunts: List<Emprunt>
+    - section : Section
+    - emprunts : Emprunt
+    - dateRenduPrevue: Date
+    - dateRenduReelle: Date
+
+    + ajoutLivre() : boolean
+    + enleverLivre() : boolean
 }
 
 
-entity Commande {
-    - Livre commandé, non disponible
-}
+EtatLivre "1" -- "0" Livre
 
-entity Disponible {
-    - Livre disponible pour emprunt
-}
+Abonne "[0..n]" -- "[0..n]" Livre
+(Livre,Abonne) . Emprunt
 
-entity Emprunté {
-    - Livre actuellement emprunté
-}
-
-entity Réservé {
-    - Livre réservé, non disponible
-}
-
-
-Commande -->  Disponible
-Commande <--  Disponible
-
-Disponible -->  Emprunté
-Disponible <--  Emprunté
-
-Emprunté -->  Réservé
-Emprunté <--  Réservé
-
-Bibliotheque -- Livre
-Bibliotheque -- Abonne
-Bibliotheque -- Emprunt
-Abonne -- Emprunt
-Livre "1" -- "0..*" Emprunt
-
+Abonne "1" -- "1" CarteMembre
+Bibliotheque "1" -- "1" Section
 
 @enduml
 

@@ -7,12 +7,17 @@
 ** Éditeur(s)
 ** Date de publication
 ** Genre(s)
-** Mots-clés
-** État (commandé, disponible, emprunté, réservé)
-** Section (adulte, adolescent, enfant)
+** MotsClés
+** État
 
-
-Chaque mention de "livre" dans l'énoncé correspond au même concept, bien que certaines mentions spécifient des états ou des actions particulières liées à ce concept.
+.Contraintes sur les operations
+[source, ocl]
+----
+context A::operationA(a: String, b: Integer): Boolean
+pre: a.size() > 3
+post:
+-- Pas de postconditions
+----
 
 
 ==  Diagramme de classes :
