@@ -13,12 +13,60 @@
 .Contraintes sur les operations
 [source, ocl]
 ----
+context Livre inv: self.ISBN > 1960
+----
+
+=== Concept de "Emprunt" :
+** EtatEmprunt
+** DateRenduPrevue
+** DateRenduReelle
+
+.Contraintes sur les operations
+[source, ocl]
+----
 context A::operationA(a: String, b: Integer): Boolean
 pre: a.size() > 3
 post:
 -- Pas de postconditions
 ----
 
+=== Concept de "CarteMembre" :
+** nom
+** prenom
+** adresse
+** identifiant
+
+.Contraintes sur les operations
+[source, ocl]
+----
+context A::operationA(a: String, b: Integer): Boolean
+pre: a.size() > 3
+post:
+-- Pas de postconditions
+----
+
+=== Concept de "Abonne" :
+** carte
+
+.Contraintes sur les operations
+[source, ocl]
+----
+context A::operationA(a: String, b: Integer): Boolean
+pre: a.size() > 3
+post:
+-- Pas de postconditions
+----
+
+=== Concept de "CommiteLecteur" :
+
+.Contraintes sur les operations
+[source, ocl]
+----
+context A::operationA(a: String, b: Integer): Boolean
+pre: a.size() > 3
+post:
+-- Pas de postconditions
+----
 
 ==  Diagramme de classes :
 

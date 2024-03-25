@@ -23,9 +23,15 @@ enum Section {
       enfant
 }
 
-enum Emprunt {
+enum EtatEmprunt {
       actif
       passe
+}
+
+Class Emprunt {
+      - EtatEmprunt
+      - dateRenduPrevue: Date
+      - dateRenduReelle: Date
 }
 
 class CarteMembre {
@@ -39,25 +45,29 @@ class Abonne {
     - carte : CarteMembre
 }
 
+class CommiteLecteur {
+
+}
+
 
 class Bibliotheque {
     - section : Section
     - emprunts : Emprunt
-    - dateRenduPrevue: Date
-    - dateRenduReelle: Date
+
 
     + ajoutLivre() : boolean
     + enleverLivre() : boolean
 }
 
 
-EtatLivre "1" -- "0" Livre
+Livre "0..2" --- "1" Emprunt
 
-Abonne "[0..n]" -- "[0..n]" Livre
-(Livre,Abonne) . Emprunt
+Abonne "1" --- "1..2" Emprunt
 
-Abonne "1" -- "1" CarteMembre
-Bibliotheque "1" -- "1" Section
+Abonne "1" --- "1" CarteMembre
+
+CommiteLecteur "1" --- "1..4" Emprunt
+
 
 @enduml
 
