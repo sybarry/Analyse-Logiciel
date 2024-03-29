@@ -1,0 +1,13 @@
+= PROJET :  Modélisation d’une Bibliothèque
+
+== Réaliser par :
+- BARRY Saikou yaya
+
+== Accord sur le dévelopemment
+L'ensemble de l'implémentation aura comme langue de référence l'anglais.
+
+
+== Utilitaires
+
+**link:https://gl.univ-nantes.io/analysis/labs/labs/2023/analysis/[Sujet Projet]** +
+**link:https://gl.univ-nantes.io/analysis/slides/#/3/[Cours]** +

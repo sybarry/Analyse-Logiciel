@@ -1,20 +1,33 @@
 @startuml
 class Livre {
-      - titre: String
-      - auteurs: String[1...n]
-      - isbn: String
-      - editeurs: String[1...n]
-      - datePublication: Date
-      - genres: String[1...n]
-      - motsCles: String[1...n]
-      - etat: EtatLivre
+       titre: String
+       isbn: String
+       datePublication: Date
+       motsCles: String[1...*]
 }
 
-enum EtatLivre {
-      commande
-      disponible
-      emprunte
-      reserve
+enum Genre {
+
+}
+
+class Auteur {
+
+}
+
+class Editeur {
+
+}
+
+Class Commande {
+
+}
+
+Class Disponible {
+
+}
+
+Class Reserve {
+
 }
 
 enum Section {
@@ -28,8 +41,7 @@ enum EtatEmprunt {
       passe
 }
 
-Class Emprunt {
-      - EtatEmprunt
+Class Emprunte {
       - dateRenduPrevue: Date
       - dateRenduReelle: Date
 }
@@ -38,11 +50,11 @@ class CarteMembre {
    - nom : String
    - prenom : String
    - adresse : String
-   - identifiant : int[1...10]
+   - identifiant : Integer[1...10]
 }
 
 class Abonne {
-    - carte : CarteMembre
+
 }
 
 class CommiteLecteur {
@@ -50,23 +62,17 @@ class CommiteLecteur {
 }
 
 
-class Bibliotheque {
-    - section : Section
-    - emprunts : Emprunt
+Livre "0..2" --- "1" Emprunte
+Livre "1" --- "*" Auteur
+Livre "1" --- "*" Editeur
+Livre "1" --- "1" Section
+Livre "1..*" --- "1..*" Genre
 
 
-    + ajoutLivre() : boolean
-    + enleverLivre() : boolean
-}
-
-
-Livre "0..2" --- "1" Emprunt
-
-Abonne "1" --- "1..2" Emprunt
-
+Emprunte "1" --- "1" EtatEmprunt
+CommiteLecteur "1" --- "1..4" Emprunte
+Abonne "1" --- "1..2" Emprunte
 Abonne "1" --- "1" CarteMembre
-
-CommiteLecteur "1" --- "1..4" Emprunt
 
 
 @enduml
