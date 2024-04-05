@@ -1,14 +1,66 @@
 @startuml
 class Livre {
        titre: String
-       isbn: String
        datePublication: Date
+       genre : String[1...*]
        motsCles: String[1...*]
 }
 
-enum Genre {
+class Abonne {
 
 }
+
+class Emprunte {
+       dateRenduPrevue: Date
+       dateRenduReelle: Date
+}
+
+class CarteMembre {
+    nom : String
+    prenom : String
+    adresse : String
+    identifiant : Integer[1...10]
+}
+
+class Isbn <<(D,#FF7700) DataType>> {
+}
+
+enum Section {
+      adulte
+      adolescent
+      enfant
+}
+
+Class Reserve {
+
+}
+
+Class Commande {
+
+}
+
+enum EtatEmprunt {
+      actif
+      passe
+}
+
+
+class CommiteLecteur {
+
+}
+
+class Personne {
+     nom : String
+     prenom : String
+     adresse : String
+}
+
+class Bibliothécaire {
+
+ ajouter()
+ enlever()
+}
+
 
 class Auteur {
 
@@ -18,61 +70,36 @@ class Editeur {
 
 }
 
-Class Commande {
 
-}
 
 Class Disponible {
 
 }
 
-Class Reserve {
 
-}
-
-enum Section {
-      adulte
-      adolescent
-      enfant
-}
-
-enum EtatEmprunt {
-      actif
-      passe
-}
-
-Class Emprunte {
-      - dateRenduPrevue: Date
-      - dateRenduReelle: Date
-}
-
-class CarteMembre {
-   - nom : String
-   - prenom : String
-   - adresse : String
-   - identifiant : Integer[1...10]
-}
-
-class Abonne {
-
-}
-
-class CommiteLecteur {
-
-}
 
 
 Livre "0..2" --- "1" Emprunte
 Livre "1" --- "*" Auteur
 Livre "1" --- "*" Editeur
 Livre "1" --- "1" Section
-Livre "1..*" --- "1..*" Genre
+Livre "1" --- "1" Isbn
+Livre  ---  Disponible
 
+Livre "0..*" --- "1" Abonne
+(Livre, Abonne) .. Commande
+(Livre, Abonne) .. Reserve
+
+
+Personne  ---  Abonne
+Personne  ---  Bibliothécaire
 
 Emprunte "1" --- "1" EtatEmprunt
 CommiteLecteur "1" --- "1..4" Emprunte
 Abonne "1" --- "1..2" Emprunte
 Abonne "1" --- "1" CarteMembre
+
+Bibliothécaire  ---  Emprunte
 
 
 @enduml

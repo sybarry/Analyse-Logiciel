@@ -1,0 +1,16 @@
+@startuml
+
+
+class Personne {
+     nom : String
+     prenom : String
+     adresse : String
+}
+
+class Abonne {
+
+}
+
+Personne  ---  Abonne
+
+@enduml
