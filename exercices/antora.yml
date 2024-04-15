@@ -8,5 +8,7 @@ asciidoc:
     xrefstyle: short@
     listing-caption: Listing@
     example-caption: true
+    kroki-fetch-diagram: true,
+    kroki-server-url: https://kroki.io
 nav:
   - modules/ROOT/nav.adoc

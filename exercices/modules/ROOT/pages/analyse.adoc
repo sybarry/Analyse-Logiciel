@@ -1,122 +1,399 @@
 == Commençons par définir les attributs d'un livre et les concepts qui y sont associés.
 
-=== Concept de "Livre" :
+=== Livre :
 ** Titre
-** Auteur(s)
-** ISBN
-** Éditeur(s)
 ** Date de publication
 ** Genre(s)
 ** MotsClés
-** État
 
-.Contraintes sur les operations
-[source, ocl]
-----
-context Livre inv: self.ISBN > 1960
-----
+=== ISBN :
+** ISBN
 
-=== Concept de "Emprunt" :
-** EtatEmprunt
+
+=== Seection :
+** adulte
+** adolescent
+** enfant
+
+=== Emprunt :
 ** DateRenduPrevue
 ** DateRenduReelle
 
-.Contraintes sur les operations
-[source, ocl]
-----
-context A::operationA(a: String, b: Integer): Boolean
-pre: a.size() > 3
-post:
--- Pas de postconditions
-----
-
-=== Concept de "CarteMembre" :
+=== CarteMembre :
 ** nom
 ** prenom
 ** adresse
 ** identifiant
 
-.Contraintes sur les operations
-[source, ocl]
-----
-context A::operationA(a: String, b: Integer): Boolean
-pre: a.size() > 3
-post:
--- Pas de postconditions
-----
+=== EtatEmprunt
+** actif
+** passe
 
-=== Concept de "Abonne" :
-** carte
 
-.Contraintes sur les operations
-[source, ocl]
-----
-context A::operationA(a: String, b: Integer): Boolean
-pre: a.size() > 3
-post:
--- Pas de postconditions
-----
+=== CommiteLecteur :
 
-=== Concept de "CommiteLecteur" :
+=== Personne :
+** nom
+** prenom
+** adresse
 
-.Contraintes sur les operations
-[source, ocl]
-----
-context A::operationA(a: String, b: Integer): Boolean
-pre: a.size() > 3
-post:
--- Pas de postconditions
-----
+=== Bibliothécaire :
+** ajouter()
+** enlever()
+
+
+=== Abonne :
+
+=== Reserve :
+
+=== Commande :
+
+=== Auteur :
+
+=== Editeur :
+
+=== Disponible :
+
+
+ Dessinez un diagramme de classes représentant la bibliothèque :
+
+[plantuml]
+....
+@startuml
+class Livre {
+titre: String
+datePublication: Date
+genre : String[1...*]
+motsCles: String[1...*]
+}
+
+class Abonne {
+
+}
+
+class Emprunte {
+dateRenduPrevue: Date
+dateRenduReelle: Date
+}
+
+class CarteMembre {
+nom : String
+prenom : String
+adresse : String
+identifiant : Integer[1...10]
+}
+
+class Isbn <<(D,#FF7700) DataType>> {
+}
+
+enum Section {
+adulte
+adolescent
+enfant
+}
+
+Class Reserve {
+
+}
+
+Class Commande {
+
+}
+
+enum EtatEmprunt {
+actif
+passe
+}
+
+
+class CommiteLecteur {
+
+}
+
+class Personne {
+nom : String
+prenom : String
+adresse : String
+}
+
+class Bibliothécaire {
+
+ ajouter()
+ enlever()
+}
+
+
+class Auteur {
+
+}
+
+class Editeur {
+
+}
+
+
+
+Class Disponible {
+
+}
+
+Livre "0..2" --- "1" Emprunte
+Livre "1" --- "*" Auteur
+Livre "1" --- "*" Editeur
+Livre "1" --- "1" Section
+Livre "1" --- "1" Isbn
+Livre  ---  Disponible
+
+Livre "0..*" --- "1" Abonne
+(Livre, Abonne) .. Commande
+(Livre, Abonne) .. Reserve
+
+
+Personne  ---  Abonne
+Personne  ---  Bibliothécaire
+
+Emprunte "1" --- "1" EtatEmprunt
+CommiteLecteur "1" --- "1..4" Emprunte
+Abonne "1" --- "1..2" Emprunte
+Abonne "1" --- "1" CarteMembre
+
+Bibliothécaire  ---  Emprunte
+
+@enduml
+....
+
 
 ==  Diagramme de classes :
 
 Le diagramme de classes permet de connaître :
 
 ** Tous les livres empruntés par un abonné.
+
+[plantuml]
+....
+@startuml
+
+class Emprunte {
+      - dateRenduPrevue: Date
+      - dateRenduReelle: Date
+}
+
+class Livre {
+       titre: String
+       datePublication: Date
+       genre : String[1...*]
+       motsCles: String[1...*]
+}
+
+class Abonne {
+
+}
+
+Livre "0..*" --- "1" Abonne
+
+(Livre, Abonne) ... Emprunte
+
+@enduml
+....
+
 ** Tous les abonnés qui ont emprunté un livre.
+
+[plantuml]
+....
+@startuml
+
+class Emprunte {
+      - dateRenduPrevue: Date
+      - dateRenduReelle: Date
+}
+
+class Livre {
+       titre: String
+       datePublication: Date
+       genre : String[1...*]
+       motsCles: String[1...*]
+}
+
+class Abonne {
+
+}
+
+Abonne "1" --- "0..*" Livre
+
+(Livre, Abonne) ... Emprunte
+
+@enduml
+....
+
 ** Toutes les adresses d'un abonné.
+
+[plantuml]
+....
+@startuml
+
+class Personne {
+     nom : String
+     prenom : String
+     adresse : String
+}
+
+class Abonne {
+
+}
+
+Personne  ---  Abonne
+
+@enduml
+....
 
 
 == Machine d'états pour la classe "Livre" :
 *** États possibles :
+
 ** Commandé
+
+[plantuml]
+....
+
+@startuml
+
+state Commandé {
+  [*] --> Disponible : réceptionner
+}
+
+@enduml
+....
+
 ** Disponible
+
+[plantuml]
+....
+
+@startuml
+
+[*] --> Disponible
+
+state Disponible {
+  [*] --> Empruntable
+  Empruntable --> Emprunté : emprunter
+  Empruntable --> Réservé : réserver
+  Empruntable --> Commandé : commander
+  Empruntable --> Indisponible : rendre indisponible
+}
+
+@enduml
+....
+
 ** Emprunté
+
+[plantuml]
+....
+
+@startuml
+
+state Emprunté {
+  [*] --> Retour
+  Retour --> Empruntable : retourner
+}
+
+@enduml
+....
+
 ** Réservé
 
+[plantuml]
+....
+
+@startuml
+
+state Réservé {
+  [*] --> Empruntable : annuler réservation
+}
+
+@enduml
+....
+
 == Invariants du diagramme :
-** Invariant 1: Un livre ne peut pas être à la fois emprunté et disponible.
-** Invariant 2: Un livre ne peut pas être réservé s'il est disponible.
-** Invariant 3: Un abonné ne peut pas emprunter plus de deux livres (sauf pour les membres du comité de lecture).
-** Invariant 4: Les membres du comité de lecture ne peuvent pas emprunter plus de quatre livres.
+
+** Invariant 1:  Un livre doit avoir au moins un auteur.
+
+.Contraintes sur Livre
+[source, ocl]
+----
+context Livre
+inv UnLivreDoitAvoirUnAuteur:
+  self.auteur->size() >= 1
+----
+
+** Invariant 2: Un livre peut avoir un ISBN seulement s'il a été publié après 1960.
+
+.Contraintes sur Livre
+[source, ocl]
+----
+context Livre
+inv LivrePublieApres1960AUnISBN:
+  self.datePublication > Date('1960-01-01') implies self.ISBN <> null
+----
+
+** Invariant 3: Un livre doit appartenir à une section
+
+.Contraintes sur Livre
+[source, ocl]
+----
+context Livre
+inv UnLivreDoitAppartenirAUneSection:
+  self.section <> null
+----
+
+** Invariant 4: Un abonné ne peut pas emprunter plus de deux livres à la fois.
+
+.Contraintes sur Abonne
+[source, ocl]
+----
+context Abonne
+inv AbonneNePeutPasEmprunterPlusDeDeuxLivres:
+  self.emprunts->size() <= 2
+----
 
 == Cas d'utilisation de la bibliothèque :
-** Emprunter un livre
-** Rendre un livre
-** Changer de section un livre
-** Gérer les emprunts (pour le bibliothécaire)
+** Emprunter un livre : Un abonné emprunte un livre de la bibliothèque.
+** Rendre un livre : Un abonné retourne un livre emprunté à la bibliothèque.
+** Réserver un livre : Un abonné réserve un livre qui n'est pas disponible immédiatement.
+** Commander un livre : Un bibliothécaire ou un abonné commande un livre qui n'est pas disponible dans la bibliothèque.
+** Ajouter un livre : Un bibliothécaire ajoute un nouveau livre au fonds de la bibliothèque.
+** Enlever un livre : Un bibliothécaire retire un livre du fonds de la bibliothèque.
 
-== Acteurs :
-** Abonné
-** Bibliothécaire
-** Membre du comité de lecture
+[plantuml]
+....
 
-== Pré- et post-conditions pour "Emprunter" un livre :
-=== Pré-conditions :
-** Le livre doit être disponible.
-** L'abonné ne doit pas avoir atteint son quota d'emprunts.
+@startuml
 
-===   Post-conditions :
-** Le livre est maintenant marqué comme "emprunté".
-** Les informations d'emprunt (abonné, date d'emprunt, date de retour prévue) sont enregistrées.
-** Instantanés (avant et après) pour "Emprunter" un livre :
+actor "Abonné" as Abonne
+actor "Bibliothécaire" as Bibliothecaire
+actor "Comité de lecture" as ComiteLecture
 
-== Pré- et post-conditions pour "Rendre" un livre :
-=== Pré-conditions :
-** Le livre doit être emprunté par l'abonné.
+Abonne --> (Emprunter)
+Abonne --> (Rendre)
+Abonne --> (Réserver)
+Abonne --> (Commander)
 
-=== Post-conditions :
-** Le livre est maintenant marqué comme "disponible".
-** Les informations d'emprunt sont mises à jour pour indiquer que le livre a été rendu.
-** Instantanés (avant et après) pour "Rendre" un livre :
+Bibliothecaire --> (Ajouter)
+Bibliothecaire --> (Enlever)
 
+ComiteLecture --> (Emprunter)
+ComiteLecture --> (ChangerSection)
+
+@enduml
+
+
+
+
+
+
+
+
+
+
+
+@enduml
+....

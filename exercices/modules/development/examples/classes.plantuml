@@ -79,27 +79,27 @@ Class Disponible {
 
 
 
-Livre "0..2" --- "1" Emprunte
-Livre "1" --- "*" Auteur
-Livre "1" --- "*" Editeur
-Livre "1" --- "1" Section
-Livre "1" --- "1" Isbn
-Livre  ---  Disponible
+Livre "0..2" -- "1" Emprunte
+Livre "1" -- "*" Auteur
+Livre "1" -- "*" Editeur
+Livre "1" -- "1" Section
+Livre "1" -- "1" Isbn
+Livre  --  Disponible
 
-Livre "0..*" --- "1" Abonne
-(Livre, Abonne) .. Commande
-(Livre, Abonne) .. Reserve
+Livre "0..*" -- "1" Abonne
+(Livre, Abonne) ... Commande
+(Livre, Abonne) ... Reserve
 
 
-Personne  ---  Abonne
-Personne  ---  Bibliothécaire
+Personne  --  Abonne
+Personne  --  Bibliothécaire
 
-Emprunte "1" --- "1" EtatEmprunt
-CommiteLecteur "1" --- "1..4" Emprunte
-Abonne "1" --- "1..2" Emprunte
-Abonne "1" --- "1" CarteMembre
+Emprunte "1" -- "1" EtatEmprunt
+CommiteLecteur "1" -- "1..4" Emprunte
+Abonne "1" -- "1..2" Emprunte
+Abonne "1" -- "1" CarteMembre
 
-Bibliothécaire  ---  Emprunte
+Bibliothécaire  --  Emprunte
 
 
 @enduml
