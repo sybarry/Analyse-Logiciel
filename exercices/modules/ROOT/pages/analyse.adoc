@@ -248,7 +248,10 @@ Personne  ---  Abonne
 
 
 == Machine d'états pour la classe "Livre" :
-*** États possibles :
+
+==== États possibles :
+
+Ces diagrammes représentent les différents états d'un livre et les transitions entre ces états en fonction des actions effectuées sur le livre.
 
 ** Commandé
 
@@ -384,12 +387,168 @@ ComiteLecture --> (Emprunter)
 ComiteLecture --> (ChangerSection)
 
 @enduml
+....
+
+=== Cas d'utilisation : Emprunter un livre
+** Pré-conditions :
+Le livre doit être disponible.
+L'abonné ne doit pas avoir atteint la limite d'emprunts.
+
+** Post-conditions :
+Le livre est marqué comme emprunté.
+Les informations sur l'emprunt sont enregistrées dans le système.
+Diagramme d'objets - Avant l'emprunt :
 
 
+[plantuml]
+....
+
+@startuml
+
+object Abonne {
+    nom = "Jean"
+    prenom = "Dupont"
+    adresse = "123 rue de la Bibliothèque"
+    cartemembre = "1234567890"
+}
+
+object Livre {
+    titre = "Le Petit Prince"
+    disponible = true
+}
 
 
+@enduml
+....
 
 
+=== Diagramme d'objets - Après l'emprunt :
+
+[plantuml]
+....
+
+@startuml
+
+object Abonne {
+    nom = "Jean"
+    prenom = "Dupont"
+    adresse = "123 rue de la Bibliothèque"
+    cartemembre = "1234567890"
+}
+
+object Livre {
+    titre = "Le Petit Prince"
+    disponible = false
+}
+
+@enduml
+....
+
+
+=== Cas d'utilisation : Rendre un livre
+** Pré-conditions :
+Le livre doit être emprunté par l'abonné.
+La date de retour ne doit pas être dépassée.
+
+** Post-conditions :
+Le livre est marqué comme disponible.
+Les informations sur le retour sont enregistrées dans le système.
+
+=== Diagramme d'objets - Avant le retour :
+
+[plantuml]
+....
+
+@startuml
+
+object Abonne {
+    nom = "Jean"
+    prenom = "Dupont"
+    adresse = "123 rue de la Bibliothèque"
+    cartemembre = "1234567890"
+}
+
+object Livre {
+    titre = "Le Petit Prince"
+    disponible = false
+}
+
+@enduml
+....
+
+
+=== Diagramme d'objets - Après le retour :
+
+[plantuml]
+....
+
+@startuml
+
+object Abonné {
+    nom = "Jean"
+    prenom = "Dupont"
+    adresse = "123 rue de la Bibliothèque"
+    cartemembre = "1234567890"
+}
+
+object Livre {
+    titre = "Le Petit Prince"
+    disponible = true
+}
+
+@enduml
+....
+
+== Cas d'utilisation : Emprunter un livre
+
+Diagramme de séquence
+
+[plantuml]
+....
+
+@startuml
+
+actor Abonne
+participant Bibliothèque
+participant Livre
+
+Abonne -> Bibliothèque: emprunterLivre(livre: Livre)
+Bibliothèque -> Livre: vérifierDisponibilité(livre)
+alt livre disponible
+    Livre -> Bibliothèque: marquerEmprunt(livre)
+    Bibliothèque --> Abonné: confirmerEmprunt()
+else livre non disponible
+    Bibliothèque --> Abonne: signalerIndisponibilité(livre)
+end
+
+@enduml
+....
+
+== Cas d'utilisation : Rendre un livre
+
+Diagramme de séquence  :
+
+[plantuml]
+....
+
+@startuml
+
+actor Abonne
+participant Bibliothèque
+participant Livre
+
+Abonne -> Bibliothèque: rendreLivre(livre: Livre)
+Bibliothèque -> Livre: vérifierEmprunt(livre)
+alt livre emprunte
+    Livre -> Bibliothèque: marquerRetour(livre)
+    Bibliothèque --> Abonné: confirmerRetour()
+else livre non emprunté
+    Bibliothèque --> Abonne: signalerErreur(livre)
+end
+
+
+@enduml
+....
 
 
 
