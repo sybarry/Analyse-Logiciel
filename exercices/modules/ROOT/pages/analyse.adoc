@@ -1,4 +1,4 @@
-== Commençons par définir les attributs d'un livre et les concepts qui y sont associés.
+== Commençons par définir les attributs et les concepts qui y sont associés.
 
 === Livre :
 ** Titre
@@ -7,8 +7,6 @@
 ** MotsClés
 
 === ISBN :
-** ISBN
-
 
 === Seection :
 ** adulte
@@ -550,9 +548,3 @@ end
 @enduml
 ....
 
-
-
-
-
-@enduml
-....
